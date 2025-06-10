@@ -9,6 +9,9 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs'
+import Container from "@/components/Container";
+import { CircleDollarSign } from "lucide-react";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,21 +37,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
       >
         <ClerkProvider>
-          <header className="flex justify-between items-center p-4 gap-4 h-16">
-            <span className="font-bold">Mortgage Calculator</span>
-            <div className="flex gap-2">
-              <SignedOut>
-                <SignInButton />
-                <SignUpButton />
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-            </div>
-          </header>
+          <Container>
+            <header className="flex justify-between items-center py-4">
+              <Link href="/properties"><span className="font-bold flex items-center gap-2 text-primary"><CircleDollarSign /> Mortgage Calculator</span></Link>
+              <div className="flex gap-2">
+                <SignedOut>
+                  <SignInButton />
+                  <SignUpButton />
+                </SignedOut>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+              </div>
+            </header>
+          </Container>
+          <hr className="mb-2" />
           {children}
         </ClerkProvider>
       </body>
