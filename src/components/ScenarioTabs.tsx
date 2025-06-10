@@ -43,6 +43,7 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
   const removeScenario = async (id: string) => {
     if (scenarios.length <= 1) return
 
+    // TODO
     const result = await deleteScenario(id)
 
     if (result.success) {
@@ -77,7 +78,8 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab}>
-      <div className="flex items-center justify-between mb-4">
+      <h1 className="text-2xl mt-4 border-t">Scenarioer</h1>
+      <div className="flex items-center justify-between">
         <TabsList className="overflow-x-auto mt-2">
           {scenarios.map((scenario) => (
             <TabsTrigger key={scenario.id} value={scenario.id}>
@@ -86,7 +88,7 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
           ))}
         </TabsList>
         <Button onClick={() => addNewScenario()} size="sm" variant="outline">
-          <PlusCircle className="h-4 w-4 mr-2" />
+          <PlusCircle className="" />
           Legg til scenario
         </Button>
       </div>

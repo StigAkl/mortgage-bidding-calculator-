@@ -18,6 +18,7 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
 
     const monthlyLoanPayment = calculateMonthlyPayment(loanSum, scenario.interest_rate, scenario.loan_period_years);
 
+    console.log(monthlyLoanPayment);
     const totalMonthlyPayment = monthlyLoanPayment + property.monthly_shared_costs;
 
     return {

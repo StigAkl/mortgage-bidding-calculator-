@@ -24,7 +24,7 @@ const ScenarioForm = ({ scenario, onUpdate, onDelete, canDelete }: ScenarioFormP
 
   return (
     <Card>
-      <CardHeader className="pb-3">
+      <CardHeader>
         <div className="flex justify-between items-center">
           <div>
             <CardTitle>{scenario.name}</CardTitle>
@@ -35,7 +35,6 @@ const ScenarioForm = ({ scenario, onUpdate, onDelete, canDelete }: ScenarioFormP
           </Button>
         </div>
       </CardHeader>
-
       <CardContent>
         <Accordion type="multiple" defaultValue={["basic"]} className="w-full">
           <AccordionItem value="basic">
@@ -49,7 +48,7 @@ const ScenarioForm = ({ scenario, onUpdate, onDelete, canDelete }: ScenarioFormP
                   <FormattedInput id={`prisantydning-${scenario.id}`} value={scenario.offer_price} onChange={(value) => handleUpdateScenario({ offer_price: value })}
                     className="h-8" />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <Label htmlFor={`egenkapital-${scenario.id}`} className="text-xs">
                     Egenkapital
                   </Label>
