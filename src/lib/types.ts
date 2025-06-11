@@ -21,6 +21,8 @@ export type Scenario = {
   primary_net_income: number;
   renovation: number;
   co_borrower_net_income: number;
+  expected_return_rate: number;
+  show_price_estimation: boolean;
 };
 
 export type ScenarioForm = Omit<Scenario, "id">;

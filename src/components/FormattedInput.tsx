@@ -28,7 +28,6 @@ const FormattedInput = ({
   const [displayValue, setDisplayValue] = useState("")
   const [isFocused, setIsFocused] = useState(false)
 
-  console.log("VAL:", value)
   useEffect(() => {
     if (!isFocused) {
       if (isPercentage) {
@@ -49,7 +48,6 @@ const FormattedInput = ({
     setDisplayValue(inputValue)
 
     if (inputValue === "") {
-      console.log("XD")
       debouncedUpdate(0)
       return
     }

@@ -1,12 +1,7 @@
 "use server";
 import { auth } from "@clerk/nextjs/server";
 import { sql, getPropertiesByUserId } from "./database";
-import {
-  PropertyForm,
-  Scenario,
-  ScenarioForm,
-  UpdateScenarioDto,
-} from "./types";
+import { PropertyForm, Scenario, ScenarioForm } from "./types";
 import { v4 as uuidv4 } from "uuid";
 import { redirect } from "next/navigation";
 
@@ -42,7 +37,7 @@ export const createProperty = async (property: PropertyForm) => {
       ${property.asking_price},
       ${property.shared_debt},
       ${property.purchase_costs},
-      ${property.monthly_shared_costs}
+      ${property.monthly_shared_costs},
     )
   `;
 
@@ -72,13 +67,16 @@ export const createScenarioAction = async (data: ScenarioForm) => {
     property_id: data.property_id,
     co_borrower_net_income: data.co_borrower_net_income,
     renovation: data.renovation,
+    expected_return_rate: data.expected_return_rate,
+    show_price_estimation: data.show_price_estimation,
   };
 
   try {
     await sql`
         insert into mortgage.scenarios (
           id, property_id, name, offer_price, own_capital, interest_rate, loan_period_years,
-          has_co_borrower, primary_net_income, co_borrower_net_income, renovation
+          has_co_borrower, primary_net_income, co_borrower_net_income, renovation, expected_return_rate,
+          show_price_estimation
         )
         VALUES
         (
@@ -92,7 +90,9 @@ export const createScenarioAction = async (data: ScenarioForm) => {
           ${scenario.has_co_borrower},
           ${scenario.primary_net_income},
           ${scenario.co_borrower_net_income},
-          ${scenario.renovation}
+          ${scenario.renovation},
+          ${scenario.expected_return_rate},
+          ${scenario.show_price_estimation}
         )
       `;
 
@@ -119,6 +119,7 @@ export async function updateScenario(data: Scenario) {
     has_co_borrower = ${data.has_co_borrower},
     primary_net_income = ${data.primary_net_income},
     co_borrower_net_income = ${data.co_borrower_net_income}
+    onCheckedChange = ${data.show_price_estimation}
     WHERE 
     id=${data.id}
     `;
@@ -133,6 +134,7 @@ export async function updateScenario(data: Scenario) {
 }
 
 export const deleteScenario = async (id: string) => {
+  await sql`DELETE FROM mortgage.scenario WHERE id=${id}`;
   return {
     success: true,
   };

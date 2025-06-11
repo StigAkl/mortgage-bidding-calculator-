@@ -46,7 +46,6 @@ const Properties = () => {
     }
   }
 
-  console.log("dialog open:", isDialogOpen)
   if (properties.length === 0 && !isDialogOpen) {
     return (
       <Container className="h-full">

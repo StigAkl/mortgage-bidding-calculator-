@@ -19,8 +19,6 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
   const [activeTab, setActiveTab] = useState(scenarios.length > 0 ? scenarios[0].id : "");
   const [error, setError] = useState<string | undefined>(undefined);
 
-  console.log(activeTab);
-
   const addNewScenario = async () => {
     const scenario: Omit<Scenario, "id"> = {
       has_co_borrower: false,
@@ -33,6 +31,8 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
       property_id: property.id,
       renovation: 0,
       co_borrower_net_income: 0,
+      expected_return_rate: 5.0,
+      show_price_estimation: false,
     };
 
     const result = await createScenarioAction(scenario)
@@ -46,7 +46,7 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
   }
 
   const removeScenario = async (id: string) => {
-    if (scenarios.length <= 1) return
+    if (scenarios.length <= 0) return
 
     // TODO
     const result = await deleteScenario(id)
@@ -82,7 +82,7 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
   }
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab}>
+    <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-4">
       <h1 className="text-2xl mt-4 pt-2 border-t">Scenarioer</h1>
       <div className="flex items-center justify-between">
         <TabsList className="overflow-x-auto mt-2">
