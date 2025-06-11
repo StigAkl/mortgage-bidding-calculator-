@@ -131,3 +131,9 @@ export async function updateScenario(data: Scenario) {
     };
   }
 }
+
+export const deleteScenario = async (id: string) => {
+  return {
+    success: true,
+  };
+};

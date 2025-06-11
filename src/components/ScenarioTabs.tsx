@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { PlusCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { createScenarioAction } from "@/lib/actions";
+import { createScenarioAction, deleteScenario } from "@/lib/actions";
 import ScenarioForm from "./ScenarioForm";
 import ScenarioResults from "./ScenarioResults";
 
