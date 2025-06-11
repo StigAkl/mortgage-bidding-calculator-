@@ -19,6 +19,8 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
   const [activeTab, setActiveTab] = useState(scenarios.length > 0 ? scenarios[0].id : "");
   const [error, setError] = useState<string | undefined>(undefined);
 
+  console.log(activeTab);
+
   const addNewScenario = async () => {
     const scenario = {
       has_co_borrower: false,
@@ -29,12 +31,14 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
       own_capital: 650_000,
       primary_net_income: 40_000,
       property_id: property.id,
+      renovation: 0,
     };
 
     const result = await createScenarioAction(scenario)
 
     if (result.success && result.id) {
       setScenarios((prev) => [...prev, { ...scenario, id: result.id }]);
+      setActiveTab(result.id);
     } else {
       setError(result.error);
     }

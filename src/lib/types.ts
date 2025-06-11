@@ -19,6 +19,7 @@ export type Scenario = {
   loan_period_years: number;
   has_co_borrower: boolean;
   primary_net_income: number;
+  renovation: number;
   co_borrower_net_income?: number;
 };
 

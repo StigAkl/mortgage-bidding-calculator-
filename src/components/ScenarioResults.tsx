@@ -13,7 +13,7 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
 
   const calculatedResults = () => {
 
-    const totalPrice = scenario.offer_price + property.purchase_costs + property.shared_debt;
+    const totalPrice = scenario.offer_price + property.purchase_costs + property.shared_debt + scenario.renovation;
     const loanSum = totalPrice - scenario.own_capital;
 
     const monthlyLoanPayment = calculateMonthlyPayment(loanSum, scenario.interest_rate, scenario.loan_period_years);
@@ -33,7 +33,7 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
 
   return (
     <Card>
-      <CardHeader className="pb-3">
+      <CardHeader>
         <CardTitle className="text-lg">Resultater</CardTitle>
         <CardDescription>Månedlige kostnader</CardDescription>
       </CardHeader>
@@ -44,7 +44,7 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
             <span className="font-medium text-blue-900">Månedlig kostnad:</span>
             <span className="font-bold text-lg text-blue-900">{formatCurrency(results.totalMonthlyPayment)}</span>
           </div>
-          <div className="flex justify-between text-sm">
+          <div className="flex justify-between text-sm mt-4">
             <span className="text-muted-foreground">Lånekostnad:</span>
             <span>{formatCurrency(results.monthlyLoanPayment)}</span>
           </div>
@@ -57,23 +57,16 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
         <Separator />
 
         {/* Detailed Results - Collapsible */}
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="details" className="border-none">
-            <AccordionTrigger className="text-sm py-2 hover:no-underline">Vis detaljer</AccordionTrigger>
-            <AccordionContent>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Totalpris:</span>
-                  <span>{formatCurrency(results.totalPrice)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Lånebehov:</span>
-                  <span>{formatCurrency(results.loanSum)}</span>
-                </div>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Totalpris:</span>
+            <span>{formatCurrency(results.totalPrice)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Lånebehov:</span>
+            <span>{formatCurrency(results.loanSum)}</span>
+          </div>
+        </div>
       </CardContent>
     </Card>
   )

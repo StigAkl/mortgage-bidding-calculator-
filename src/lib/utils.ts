@@ -9,7 +9,7 @@ export const formatNumber = (value: number) =>
   new Intl.NumberFormat("nb-NO").format(value);
 
 export function formatNumberForInput(value: number): string {
-  if (isNaN(value) || value === 0) return "";
+  if (isNaN(value)) return "";
   return new Intl.NumberFormat("nb-NO").format(value);
 }
 

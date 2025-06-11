@@ -71,13 +71,14 @@ export const createScenarioAction = async (data: ScenarioForm) => {
     primary_net_income: data.primary_net_income,
     property_id: data.property_id,
     co_borrower_net_income: data.co_borrower_net_income,
+    renovation: data.renovation,
   };
 
   try {
-    const result = await sql`
+    await sql`
         insert into mortgage.scenarios (
           id, property_id, name, offer_price, own_capital, interest_rate, loan_period_years,
-          has_co_borrower, primary_net_income, co_borrower_net_income
+          has_co_borrower, primary_net_income, co_borrower_net_income, renovation
         )
         VALUES
         (
@@ -90,11 +91,11 @@ export const createScenarioAction = async (data: ScenarioForm) => {
           ${scenario.loan_period_years},
           ${scenario.has_co_borrower},
           ${scenario.primary_net_income},
-          ${scenario.co_borrower_net_income}
+          ${scenario.co_borrower_net_income},
+          ${scenario.renovation}
         )
       `;
 
-    console.log("RESULT:", result);
     return {
       success: true,
       id: id,

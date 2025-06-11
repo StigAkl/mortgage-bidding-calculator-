@@ -28,12 +28,13 @@ const FormattedInput = ({
   const [displayValue, setDisplayValue] = useState("")
   const [isFocused, setIsFocused] = useState(false)
 
+  console.log("VAL:", value)
   useEffect(() => {
     if (!isFocused) {
       if (isPercentage) {
-        setDisplayValue(value === 0 ? "" : value.toString().replace(".", ","))
+        setDisplayValue(value.toString().replace(".", ","))
       } else {
-        setDisplayValue(value === 0 ? "" : formatNumberForInput(value))
+        setDisplayValue(formatNumberForInput(value))
       }
     }
   }, [value, isFocused, isPercentage])
@@ -48,6 +49,7 @@ const FormattedInput = ({
     setDisplayValue(inputValue)
 
     if (inputValue === "") {
+      console.log("XD")
       debouncedUpdate(0)
       return
     }
@@ -60,7 +62,7 @@ const FormattedInput = ({
 
     const cleanNumber = parseFormattedNumber(inputValue)
 
-    if (cleanNumber > 0 || (!inputValue.endsWith(",") && !inputValue.endsWith("."))) {
+    if (cleanNumber >= 0 || (!inputValue.endsWith(",") && !inputValue.endsWith("."))) {
       const formatted = formatNumberForInput(cleanNumber)
       if (formatted !== inputValue) {
         setDisplayValue(formatted)

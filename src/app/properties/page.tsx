@@ -10,6 +10,7 @@ import { createProperty, loadPropertiesByUserId } from "@/lib/actions";
 import { Property, PropertyForm } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { ArrowRight, Home, PlusCircle } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -45,6 +46,21 @@ const Properties = () => {
     }
   }
 
+  console.log("dialog open:", isDialogOpen)
+  if (properties.length === 0 && !isDialogOpen) {
+    return (
+      <Container className="h-full">
+        <div className="w-full flex flex-col items-center justify-center gap-3 p-16">
+          <h1 className="text-2xl">Du har ingen boliger</h1>
+          <p className="text-muted-foreground">Opprett din første bolig</p>
+          <Button className="cursor-pointer text-foreground" onClick={() => setIsDialogOpen(true)}>
+            <PlusCircle />
+            Opprett din første bolig
+          </Button>
+        </div>
+      </Container>
+    )
+  }
   return (
     <Container className="space-y-6">
       <div className="flex items-center justify-between">
@@ -55,7 +71,7 @@ const Properties = () => {
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button className="text-foreground">
               <PlusCircle className="h-4 w-4 mr-2" />
               Ny bolig
             </Button>
@@ -75,7 +91,6 @@ const Properties = () => {
                 <Label htmlFor="askingPrice">Prisantydning</Label>
                 <FormattedInput
                   id="askingPrice"
-                  name="askingPrice"
                   value={newProperty.asking_price}
                   onChange={(value) => setNewProperty((prev) => ({ ...prev, asking_price: value }))}
                 />
@@ -83,17 +98,17 @@ const Properties = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="propertyName">Omkostninger</Label>
-                <FormattedInput id="purchaseCost" name="purchaseCost" placeholder="" value={newProperty.purchase_costs} onChange={(value) => setNewProperty((prev) => ({ ...prev, purchase_costs: value }))} />
+                <FormattedInput id="purchaseCost" placeholder="" value={newProperty.purchase_costs} onChange={(value) => setNewProperty((prev) => ({ ...prev, purchase_costs: value }))} />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="sharedDebt">Fellesgjeld</Label>
-                <FormattedInput id="sharedDebt" name="sharedDebt" value={newProperty.shared_debt} onChange={(value) => setNewProperty((prev) => ({ ...prev, shared_debt: value }))} />
+                <FormattedInput id="sharedDebt" value={newProperty.shared_debt} onChange={(value) => setNewProperty((prev) => ({ ...prev, shared_debt: value }))} />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="monthlySharedCosts">Fellesutgifter / mnd</Label>
-                <FormattedInput id="monthlySharedCosts" name="monthlySharedCosts" value={newProperty.monthly_shared_costs} onChange={(value) => setNewProperty((prev) => ({ ...prev, monthly_shared_costs: value }))} />
+                <FormattedInput id="monthlySharedCosts" value={newProperty.monthly_shared_costs} onChange={(value) => setNewProperty((prev) => ({ ...prev, monthly_shared_costs: value }))} />
               </div>
             </form>
 
@@ -123,9 +138,8 @@ const Properties = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full" onClick={() => console.log("clicked..")}>
-                Se kalkuleringer
-                <ArrowRight className="h-4 w-4 ml-2" />
+              <Button variant="outline" className="w-full" asChild>
+                <Link href={`/properties/${property.id}`} className="flex items-center">Se kalkuleringer <ArrowRight className="h-4 w-4 ml-2" /> </Link>
               </Button>
             </CardContent>
           </Card>

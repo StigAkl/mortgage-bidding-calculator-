@@ -15,8 +15,8 @@ const PropertyInfo = ({ property }: PropertyInfoProps) => {
     <Card>
       <CardHeader>
         <CardTitle>Boliginformasjon</CardTitle>
+        <h1 className="text-muted-foreground">{property.name}</h1>
       </CardHeader>
-
       <CardContent>
         <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>

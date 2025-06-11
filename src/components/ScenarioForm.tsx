@@ -18,8 +18,11 @@ const ScenarioForm = ({ scenario, onUpdate, onDelete, canDelete }: ScenarioFormP
 
   const handleUpdateScenario = async (updates: UpdateScenarioDto) => {
     onUpdate({ ...scenario, ...updates })
-    const res = await updateScenario({ ...scenario, ...updates })
-    console.log("result:", res)
+    const result = await updateScenario({ ...scenario, ...updates })
+
+    if (result.error) {
+
+    }
   }
 
   return (
@@ -81,6 +84,17 @@ const ScenarioForm = ({ scenario, onUpdate, onDelete, canDelete }: ScenarioFormP
                     id={`nedbetalingstid-${scenario.id}`}
                     value={scenario.loan_period_years}
                     onChange={(value) => handleUpdateScenario({ loan_period_years: value })}
+                    className="h-8"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor={`nedbetalingstid-${scenario.id}`} className="text-xs">
+                    Oppussingskostnader (kr)
+                  </Label>
+                  <FormattedInput
+                    id={`renovation-${scenario.id}`}
+                    value={scenario.renovation}
+                    onChange={(value) => handleUpdateScenario({ renovation: value })}
                     className="h-8"
                   />
                 </div>

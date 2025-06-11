@@ -1,22 +1,14 @@
-import { loadPropertiesByUserId } from "@/lib/actions";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 const Home = async () => {
+  const { userId } = await auth();
 
-  const load = async () => {
-    const data = await loadPropertiesByUserId("kaktus");
-    return data;
+  if (!userId) {
+    redirect("/sign-in");
   }
 
-  const data = await load();
-
-  console.log(data);
-
-  const { userId } = await auth();
-  if (!userId) return redirect("/sign-in")
-
-  return redirect("/properties");
+  redirect("/properties");
 }
 
 export default Home;
