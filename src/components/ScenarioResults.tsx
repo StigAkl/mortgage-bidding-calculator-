@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Separator } from "./ui/separator";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { Calendar, PiggyBank, TrendingUp } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 
 interface ScenarioResultsProps {
   scenario: Scenario;
@@ -32,44 +33,59 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
 
     // Sales estimation
     let salesResults;
-    if (scenario.show_price_estimation) {
-      const expectedSalesPrice = property.asking_price * Math.pow(1 + scenario.expected_return_rate / 100, YEARS_UNTIL_SALE)
-      const profit = expectedSalesPrice - property.asking_price;
 
+    if (scenario.show_price_estimation) {
+      const estimatedSalePrice =
+        property.asking_price * Math.pow(1 + scenario.expected_return_rate / 100, YEARS_UNTIL_SALE);
+
+      // Simple gain: Sale price - Purchase price
+      const gain = estimatedSalePrice - property.asking_price;
+
+      // Total investment (own capital + renovation)
       const totalInvestment = scenario.own_capital + scenario.renovation;
 
-      const totalReturn = (profit / totalInvestment) * 100;
+      // Return on invested capital
+      const totalReturn = (gain / totalInvestment) * 100;
 
-      const yearlyReturn = Math.pow(1 + totalReturn / 100, 1 / YEARS_UNTIL_SALE * 100 - 100)
+      // Annualized return
+      const annualizedReturn = Math.pow(1 + totalReturn / 100, 1 / YEARS_UNTIL_SALE) * 100 - 100;
 
-      const valueChange = [];
+      // Total cost over the ownership period
+      const totalMonthlyCosts = totalMonthlyPayment * YEARS_UNTIL_SALE * 12;
+
+      // Simulated value development over a range of years
+      const valueProjection = [];
       const startYear = Math.max(1, YEARS_UNTIL_SALE - 2);
       const endYear = YEARS_UNTIL_SALE + 3;
 
       for (let year = startYear; year <= endYear; year++) {
-        const value = property.asking_price * Math.pow(1 * scenario.expected_return_rate / 100, year);
-        const thisYearProfit = value - property.asking_price;
-        const thisYearInterest = (thisYearProfit / totalInvestment) * 100;
-        const yearlyAverageProfit = Math.pow(1 + thisYearInterest / 100, 1 / year) * 100 - 100;
+        const projectedValue =
+          property.asking_price * Math.pow(1 + scenario.expected_return_rate / 100, year);
+        const yearlyGain = projectedValue - property.asking_price;
+        const yearlyReturn = (yearlyGain / totalInvestment) * 100;
+        const annualizedAverageReturn =
+          Math.pow(1 + yearlyReturn / 100, 1 / year) * 100 - 100;
 
-        valueChange.push({
+        valueProjection.push({
           year,
-          value,
-          profit: thisYearProfit,
-          interestPercentage: thisYearInterest,
-          yearlyAverageProfit
-        })
+          projectedValue,
+          gain: yearlyGain,
+          returnPercentage: yearlyReturn,
+          annualizedAverageReturn,
+        });
       }
 
       salesResults = {
-        expectedSalesPrice,
-        profit,
+        estimatedSalePrice,
+        gain,
         totalReturn,
-        yearlyReturn,
+        annualizedReturn,
         totalInvestment,
-        valueChange
-      }
+        totalMonthlyCosts,
+        valueProjection,
+      };
     }
+
 
     return {
       totalPrice,
@@ -155,18 +171,41 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200">
                 <div className="flex items-center gap-2 mb-2">
-                  <Calendar className="size-5 text-green-600" />
+                  <Calendar className="size-4 text-green-600" />
                   <span className="text-sm font-medium text-green-800">Planlagt salgsår</span>
                 </div>
                 <span className="font-bold text-lg text-green-900">År {YEARS_UNTIL_SALE}</span>
               </div>
               <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-400">
                 <div className="flex items-center gap-2 mb-2">
-                  <PiggyBank className="size-5 text-blue-800" />
+                  <PiggyBank className="size-4 text-blue-800" />
                   <span className="text-sm font-medium text-blue-800">Forventet gevinst</span>
                 </div>
-                <span className="font-bold text-ls text-blue-800">{formatCurrency(results.salesResults.profit)}</span>
+                <span className="font-bold text-lg text-blue-800">{formatCurrency(results.salesResults.gain)}</span>
               </div>
+            </div>
+
+            <div className="rounded-md border overflow-hidden">
+              <Table className="rounded-lg">
+                <TableHeader className="bg-secondary">
+                  <TableRow>
+                    <TableHead className="w-[80px] font-medium">År</TableHead>
+                    <TableHead className="font-medium">Verdi</TableHead>
+                    <TableHead className="font-medium">Gevinst</TableHead>
+                    <TableHead className="font-medium text-right">Avkastning</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {results.salesResults.valueProjection.map((year) => (
+                    <TableRow key={year.year}>
+                      <TableCell>{year.year}</TableCell>
+                      <TableCell>{formatCurrency(year.projectedValue)}</TableCell>
+                      <TableCell>{formatCurrency(year.gain)}</TableCell>
+                      <TableCell className="text-right">{year.returnPercentage.toFixed(1)}%</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           </CardContent>
         </Card>

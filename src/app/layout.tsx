@@ -10,7 +10,7 @@ import {
   UserButton,
 } from '@clerk/nextjs'
 import Container from "@/components/Container";
-import { CircleDollarSign } from "lucide-react";
+import { House } from "lucide-react";
 import Link from "next/link";
 
 const geistSans = Geist({
@@ -42,7 +42,7 @@ export default function RootLayout({
         <ClerkProvider>
           <Container>
             <header className="flex justify-between items-center py-4">
-              <Link href="/properties"><span className="font-bold flex items-center gap-2 text-primary"><CircleDollarSign /> Mortgage Calculator</span></Link>
+              <Link href="/properties"><span className="font-bold flex items-center gap-2 text-primary"><House />Boliglån- og Investeringsanalyse</span></Link>
               <div className="flex gap-2">
                 <SignedOut>
                   <SignInButton />
