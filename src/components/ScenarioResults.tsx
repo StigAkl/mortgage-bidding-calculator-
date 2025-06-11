@@ -15,17 +15,25 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
 
     const totalPrice = scenario.offer_price + property.purchase_costs + property.shared_debt + scenario.renovation;
     const loanSum = totalPrice - scenario.own_capital;
-
     const monthlyLoanPayment = calculateMonthlyPayment(loanSum, scenario.interest_rate, scenario.loan_period_years);
-
-    console.log(monthlyLoanPayment);
     const totalMonthlyPayment = monthlyLoanPayment + property.monthly_shared_costs;
+
+    let primaryBorrower = totalMonthlyPayment;
+    let coBorrower = 0;
+
+    if (scenario.has_co_borrower && scenario.primary_net_income + scenario.co_borrower_net_income > 0) {
+      const totalSalary = scenario.primary_net_income + scenario.co_borrower_net_income;
+      primaryBorrower = totalMonthlyPayment * (scenario.primary_net_income / totalSalary)
+      coBorrower = totalMonthlyPayment * (scenario.co_borrower_net_income / totalSalary);
+    }
 
     return {
       totalPrice,
       loanSum,
       monthlyLoanPayment,
-      totalMonthlyPayment
+      totalMonthlyPayment,
+      primaryBorrower,
+      coBorrower
     }
   }
 
@@ -67,6 +75,23 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
             <span>{formatCurrency(results.loanSum)}</span>
           </div>
         </div>
+
+        {scenario.has_co_borrower && (
+          <>
+            <Separator className="my-2" />
+            <div className="space-y-2">
+              <div className="text-xs font-medium mb-2">Fordeling:</div>
+              <div className="flex justify-between text-xs">
+                <span>Hovedlåntaker:</span>
+                <span className="font-medium">{formatCurrency(results.primaryBorrower)}</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span>Medlåntaker:</span>
+                <span className="font-medium">{formatCurrency(results.coBorrower)}</span>
+              </div>
+            </div>
+          </>
+        )}
       </CardContent>
     </Card>
   )

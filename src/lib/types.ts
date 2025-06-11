@@ -20,7 +20,7 @@ export type Scenario = {
   has_co_borrower: boolean;
   primary_net_income: number;
   renovation: number;
-  co_borrower_net_income?: number;
+  co_borrower_net_income: number;
 };
 
 export type ScenarioForm = Omit<Scenario, "id">;

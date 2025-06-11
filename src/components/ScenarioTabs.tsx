@@ -22,7 +22,7 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
   console.log(activeTab);
 
   const addNewScenario = async () => {
-    const scenario = {
+    const scenario: Omit<Scenario, "id"> = {
       has_co_borrower: false,
       interest_rate: 5.6,
       loan_period_years: 30,
@@ -32,6 +32,7 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
       primary_net_income: 40_000,
       property_id: property.id,
       renovation: 0,
+      co_borrower_net_income: 0,
     };
 
     const result = await createScenarioAction(scenario)
@@ -82,7 +83,7 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab}>
-      <h1 className="text-2xl mt-4 border-t">Scenarioer</h1>
+      <h1 className="text-2xl mt-4 pt-2 border-t">Scenarioer</h1>
       <div className="flex items-center justify-between">
         <TabsList className="overflow-x-auto mt-2">
           {scenarios.map((scenario) => (
@@ -91,9 +92,9 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
             </TabsTrigger>
           ))}
         </TabsList>
-        <Button onClick={() => addNewScenario()} size="sm" variant="outline">
-          <PlusCircle className="" />
-          Legg til scenario
+        <Button onClick={() => addNewScenario()} size="sm" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
+          <PlusCircle className="h-4 w-4 mr-2" />
+          Nytt scenario
         </Button>
       </div>
 
