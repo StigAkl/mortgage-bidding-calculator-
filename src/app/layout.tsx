@@ -12,6 +12,7 @@ import {
 import Container from "@/components/Container";
 import { House } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

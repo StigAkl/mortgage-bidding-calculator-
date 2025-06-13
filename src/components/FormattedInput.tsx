@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
-import { formatNumberForInput, parseFormattedNumber } from "@/lib/utils"
+import { cn, formatNumberForInput, parseFormattedNumber } from "@/lib/utils"
 import { useDebouncedUpdate } from "@/hooks/useDebouncedUpdate"
 
 interface FormattedInputProps {
@@ -97,7 +97,8 @@ const FormattedInput = ({
       onChange={handleChange}
       onBlur={handleBlur}
       onFocus={handleFocus}
-      className={className}
+      className={cn("focus-visible:ring-0", className)}
+      autoComplete="off"
       placeholder={placeholder}
       step={step}
     />

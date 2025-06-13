@@ -1,7 +1,12 @@
 "use server";
 import { auth } from "@clerk/nextjs/server";
 import { sql, getPropertiesByUserId } from "./database";
-import { PropertyForm, Scenario, ScenarioForm } from "./types";
+import {
+  PropertyForm,
+  Scenario,
+  ScenarioForm,
+  UpdateScenarioDto,
+} from "./types";
 import { v4 as uuidv4 } from "uuid";
 import { redirect } from "next/navigation";
 
@@ -108,20 +113,21 @@ export const createScenarioAction = async (data: ScenarioForm) => {
   }
 };
 
-export async function updateScenario(data: Scenario) {
+export async function updateScenario(id: string, data: UpdateScenarioDto) {
   try {
     const result = await sql`
-    UPDATE mortgage.scenarios 
+    UPDATE mortgage.scenarios
     SET
      offer_price = ${data.offer_price},
       own_capital = ${data.own_capital},
     loan_period_years = ${data.loan_period_years},
     has_co_borrower = ${data.has_co_borrower},
     primary_net_income = ${data.primary_net_income},
-    co_borrower_net_income = ${data.co_borrower_net_income}
-    onCheckedChange = ${data.show_price_estimation}
-    WHERE 
-    id=${data.id}
+    co_borrower_net_income = ${data.co_borrower_net_income},
+    show_price_estimation = ${data.show_price_estimation},
+    interest_rate = ${data.interest_rate}
+    WHERE
+    id=${id}
     `;
     return { success: true, scenario: result[0] };
   } catch (error) {
@@ -134,7 +140,7 @@ export async function updateScenario(data: Scenario) {
 }
 
 export const deleteScenario = async (id: string) => {
-  await sql`DELETE FROM mortgage.scenario WHERE id=${id}`;
+  await sql`DELETE FROM mortgage.scenarios WHERE id=${id}`;
   return {
     success: true,
   };

@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { PlusCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { createScenarioAction, deleteScenario } from "@/lib/actions";
-import ScenarioForm from "./ScenarioForm";
+import ScenarioForm from "./ScenarioForm/ScenarioForm";
 import ScenarioResults from "./ScenarioResults";
 
 
@@ -83,7 +83,7 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-4">
-      <h1 className="text-2xl mt-4 pt-2 border-t">Scenarioer</h1>
+      <h1 className="text-2xl mt-4 pt-2">Scenarioer</h1>
       <div className="flex items-center justify-between">
         <TabsList className="overflow-x-auto mt-2">
           {scenarios.map((scenario) => (
@@ -100,16 +100,17 @@ const ScenarioTabs = ({ initialScenarios, property }: ScenarioTabsProps) => {
 
       {scenarios.map((scenario) => (
         <TabsContent key={scenario.id} value={scenario.id}>
-          <div className="grid gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2">
+          <div className="grid gap-3 lg:grid-cols-2">
+            <div className="lg:col-span-1">
               <ScenarioForm
                 scenario={scenario}
                 onUpdate={updateScenarioState}
                 onDelete={removeScenario}
                 canDelete={scenarios.length > 1}
+                property={property}
               />
             </div>
-            <div>
+            <div className="lg:col-span-1">
               <ScenarioResults scenario={scenario} property={property} />
             </div>
           </div>

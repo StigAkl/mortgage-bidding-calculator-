@@ -2,7 +2,6 @@ import { Property, Scenario } from "@/lib/types";
 import { calculateMonthlyPayment, formatCurrency } from "@/lib/utils";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Separator } from "./ui/separator";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { Calendar, PiggyBank, TrendingUp } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 
@@ -104,7 +103,7 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
     <div className="space-y-4">
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Resultater</CardTitle>
+          <CardTitle className="text-lg">Lån</CardTitle>
           <CardDescription>Månedlige kostnader</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -159,7 +158,7 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
 
       {scenario.show_price_estimation && results.salesResults && (
         <Card className="shadow-sm border-gray-200 pt-0">
-          <CardHeader className="pb-4 bg-gradient-to-r from-green-50 to-emerald-50 pt-6">
+          <CardHeader className="pb-4 bg-gradient-to-r from-green-50 to-emerald-50 pt-4">
             <CardTitle className="text-lg text-gray-900 flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-green-600" />
               Estimering av avkastning
@@ -167,8 +166,8 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
             <CardDescription className="text-gray-600">Med {scenario.expected_return_rate}% årlig vekst</CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-6 p-6">
-            <div className="grid gap-4 sm:grid-cols-2">
+          <CardContent>
+            <div className="grid gap-4 sm:grid-cols-2 mb-4">
               <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200">
                 <div className="flex items-center gap-2 mb-2">
                   <Calendar className="size-4 text-green-600" />
