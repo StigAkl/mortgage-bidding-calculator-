@@ -37,7 +37,7 @@ export const createProperty = async (property: PropertyForm) => {
       ${property.asking_price},
       ${property.shared_debt},
       ${property.purchase_costs},
-      ${property.monthly_shared_costs},
+      ${property.monthly_shared_costs}
     )
   `;
 
