@@ -50,7 +50,7 @@ const ScenarioForm = ({ scenario, onUpdate, onDelete, canDelete, property }: Sce
               <Calculator className="size-5 text-blue-600" />
               {scenario.name}</CardTitle>
             <CardDescription className="text-gray-600">
-              Juster parametere for beregning</CardDescription>
+              Juster parametere for regne ut hvor mye boliglånet vil koste</CardDescription>
           </div>
           <Button variant="ghost" size="sm" onClick={() => onDelete(scenario.id)}>
             <TrashIcon className="size-5 text-red-400" />

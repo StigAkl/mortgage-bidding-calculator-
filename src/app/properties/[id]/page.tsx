@@ -27,8 +27,6 @@ const Page = async ({ params }: PageProps) => {
   const scenarios = (await sql`
   SELECT * FROM mortgage.scenarios WHERE property_id = ${property.id}`) as Scenario[];
 
-  console.log("SCENAS:", scenarios);
-
   return (
     <Container>
       <div className="space-y-6">
