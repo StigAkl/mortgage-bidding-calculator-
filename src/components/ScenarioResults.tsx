@@ -10,7 +10,7 @@ interface ScenarioResultsProps {
   property: Property;
 }
 
-const YEARS_UNTIL_SALE = 10
+const YEARS_UNTIL_SALE = 5
 
 const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
 
