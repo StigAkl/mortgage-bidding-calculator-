@@ -108,16 +108,16 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Key Results - Always Visible */}
-          <div className="space-y-2">
+          <div className="space-y-2 text-xs">
             <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
               <span className="font-medium text-blue-900">Månedlig kostnad:</span>
               <span className="font-bold text-lg text-blue-900">{formatCurrency(results.totalMonthlyPayment)}</span>
             </div>
-            <div className="flex justify-between text-sm mt-4">
+            <div className="flex justify-between mt-4">
               <span className="text-muted-foreground">Lånekostnad:</span>
               <span>{formatCurrency(results.monthlyLoanPayment)}</span>
             </div>
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between">
               <span className="text-muted-foreground">Fellesutgifter:</span>
               <span>{formatCurrency(property.monthly_shared_costs)}</span>
             </div>
@@ -126,7 +126,7 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
           <Separator />
 
           {/* Detailed Results - Collapsible */}
-          <div className="space-y-2 text-sm">
+          <div className="space-y-2 text-xs">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Totalpris:</span>
               <span>{formatCurrency(results.totalPrice)}</span>
@@ -140,15 +140,15 @@ const ScenarioResults = ({ scenario, property }: ScenarioResultsProps) => {
           {scenario.has_co_borrower && (
             <>
               <Separator className="my-2" />
-              <div className="space-y-2">
-                <div className="text-xs font-medium mb-2">Fordeling:</div>
-                <div className="flex justify-between text-xs">
-                  <span>Hovedlåntaker:</span>
-                  <span className="font-medium">{formatCurrency(results.primaryBorrower)}</span>
+              <div className="space-y-2 text-xs">
+                <div className="text-sm">Fordeling:</div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Hovedlåntaker:</span>
+                  <span>{formatCurrency(results.primaryBorrower)}</span>
                 </div>
-                <div className="flex justify-between text-xs">
-                  <span>Medlåntaker:</span>
-                  <span className="font-medium">{formatCurrency(results.coBorrower)}</span>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Medlåntaker:</span>
+                  <span>{formatCurrency(results.coBorrower)}</span>
                 </div>
               </div>
             </>
