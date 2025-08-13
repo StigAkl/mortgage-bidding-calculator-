@@ -88,6 +88,7 @@ const FormattedInput = ({
     setIsFocused(true)
   }
 
+  console.log("test");
   return (
     <Input
       id={id}
